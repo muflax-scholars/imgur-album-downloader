@@ -1,13 +1,14 @@
 #!/bin/bash
 
+gallery=$1
+mkdir $gallery
+
 for ((i = 0; i <= 100; i++)); do
-    echo "Grabbing page $i"
+  echo "grabbing page $i..."
 
-    wget -q "http://imgur.com/r/wallpapers/page/$i" -O - | grep 'class="post"' | cut -d\" -f2 | while read id
-    do
-        echo "Downloading $id.jpg"
-        wget -q -c "http://i.imgur.com/$id.jpg"
-    done
+  wget -q "http://imgur.com/r/${gallery}/page/$i" -O - | grep 'class="post"' | cut -d\" -f2 | while read id
+  do
+    echo "downloading $id.jpg"
+    wget -q -c "http://i.imgur.com/$id.jpg" -P $gallery
+  done
 done
-
-echo "Done"
